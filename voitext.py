@@ -2,6 +2,8 @@
 
 Usage:
     voitext [-l <str>] [-d] [-f <int>] [-n <int>] [-m] [-s <int>] [-b <str>] <file>
+    voitext edit
+    voitext split
     voitext (-h | --help)
     voitext --version
 
@@ -21,7 +23,7 @@ import os
 import re
 import textwrap
 from enum import Enum
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Callable
 
 import speech_recognition as sr
 import yaml
@@ -35,7 +37,6 @@ CWD_PATH: str = os.getcwd()
 OUTPUT_PATH: str = os.path.join(CWD_PATH, "output")
 FONT_FILE: str = os.path.join(CWD_PATH, "font.ttf")
 VERSION: float = 0.1
-
 
 class BG_COLOR(Enum):
     GREEN = (0, 177, 64)
@@ -81,7 +82,7 @@ class Voitext:
         IMAGE: "images",
     }
 
-    def __init__(self, filename: str, fontsize: int = 24, video_bg_color=BG_COLOR.GREEN.value) -> None:
+    def __init__(self, filename: str, fontsize: int = 24, video_bg_color=BG_COLOR.GREEN.name) -> None:
         self.__filename = filename
         self.__fontsize = fontsize
         self.__video_bg_color = self.set_bg_color(video_bg_color)
@@ -179,7 +180,8 @@ class Voitext:
     @staticmethod
     def __voice_to_text(audio_file: str, language: str = None) -> str:
         rec: sr.Recognizer = sr.Recognizer()
-        text = "..."
+        text: str = "..."
+
         with sr.AudioFile(audio_file) as source:
             audio_listened: sr.AudioData = rec.listen(source)
             try:
@@ -187,6 +189,7 @@ class Voitext:
                     audio_data=audio_listened,
                     language=language if language else "id-ID"
                 )
+                print(text)
             except sr.UnknownValueError:
                 print("Google Speech Recognition could not understand audio")
             except sr.RequestError as e:
@@ -234,12 +237,12 @@ class Voitext:
         data_list: List[Dict[str, Any]] = [d for d in data.values()]
         data_list = [data_list[number - 1]] if number else data_list
 
-        for d in data_list:
-            video_file: str = d.get(Voitext.media_name.get(Voitext.VIDEO))
-            audio_file: str = d.get(Voitext.media_name.get(Voitext.AUDIO))
-            image_file: str = d.get(Voitext.media_name.get(Voitext.IMAGE))
-            text: str = d.get(Voitext.media_name.get(Voitext.TEXT))
-            duration: float = d.get(Voitext.media_name.get(Voitext.DURATION))
+        for dt in data_list:
+            video_file: str = dt.get(Voitext.media_name.get(Voitext.VIDEO))
+            audio_file: str = dt.get(Voitext.media_name.get(Voitext.AUDIO))
+            image_file: str = dt.get(Voitext.media_name.get(Voitext.IMAGE))
+            text: str = dt.get(Voitext.media_name.get(Voitext.TEXT))
+            duration: float = dt.get(Voitext.media_name.get(Voitext.DURATION))
 
             Voitext.__text_to_image(
                 output_filename=image_file,
@@ -256,9 +259,44 @@ class Voitext:
 
     # TODO: test split on word from speech
     @staticmethod
-    def split_one_word(data_file: str) -> None:
+    def split_one_word(filename: str, fontsize: int, video_bg_color: str = BG_COLOR.GREEN.name) -> None:
+        with open(filename, "r") as f:
+            data: Dict[int, Dict[str, Any]] = yaml.load(f)
 
-        pass
+        edit_path: Callable[[str, str], str] = lambda filename, name: os.path.join(os.path.dirname(filename),
+                                                                                   f"split_{name}")
+        # edit_filename
+
+        for i, dt in enumerate(data.values(), start=1):
+            video_path: str = edit_path(dt.get(Voitext.media_name.get(Voitext.VIDEO)),
+                                        f"{Voitext.media_name[Voitext.VIDEO]}{i}")
+            image_path: str = edit_path(dt.get(Voitext.media_name.get(Voitext.IMAGE)),
+                                        f"{Voitext.media_name[Voitext.IMAGE]}{i}")
+            text: str = dt.get(Voitext.media_name.get(Voitext.TEXT))
+            duration: float = dt.get(Voitext.media_name.get(Voitext.DURATION))
+            text_list: List[str] = textwrap.wrap(text, width=1, break_long_words=False)
+            d = duration / len(text_list)
+
+            for p in (video_path, image_path):
+                if not os.path.exists(p):
+                    os.makedirs(p)
+
+            for i, t in enumerate(text_list, start=1):
+                image_file: str = os.path.join(image_path, f"{i}.{t}{Voitext.ext.get(Voitext.IMAGE)}")
+                video_file: str = os.path.join(video_path, f"{i}.{t}{Voitext.ext.get(Voitext.VIDEO)}")
+
+                Voitext.__text_to_image(
+                    output_filename=image_file,
+                    text=t.upper(),
+                    fontsize=fontsize
+                )
+
+                Voitext.__media_to_video(
+                    output_filename=video_file,
+                    image_file=image_file,
+                    video_bg_color=Voitext.set_bg_color(video_bg_color),
+                    duration=d,
+                )
 
     def __create_output_dir(self) -> Dict[int, str]:
         version = 1
