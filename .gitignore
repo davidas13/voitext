@@ -1,0 +1,5 @@
+output/
+.idea/
+voice_test.py
+Dockerfile
+main.py
