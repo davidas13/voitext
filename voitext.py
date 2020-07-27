@@ -265,7 +265,7 @@ class Voitext:
 
         edit_path: Callable[[str, str], str] = lambda filename, name: os.path.join(os.path.dirname(filename),
                                                                                    f"split_{name}")
-        # edit_filename
+        rec: sr.Recognizer = sr.Recognizer()
 
         for i, dt in enumerate(data.values(), start=1):
             video_path: str = edit_path(dt.get(Voitext.media_name.get(Voitext.VIDEO)),
@@ -273,30 +273,63 @@ class Voitext:
             image_path: str = edit_path(dt.get(Voitext.media_name.get(Voitext.IMAGE)),
                                         f"{Voitext.media_name[Voitext.IMAGE]}{i}")
             text: str = dt.get(Voitext.media_name.get(Voitext.TEXT))
+            audio_file: str = dt.get(Voitext.media_name.get(Voitext.AUDIO))
             duration: float = dt.get(Voitext.media_name.get(Voitext.DURATION))
             text_list: List[str] = textwrap.wrap(text, width=1, break_long_words=False)
-            d = duration / len(text_list)
+            # d = duration / len(text_list)
 
             for p in (video_path, image_path):
                 if not os.path.exists(p):
                     os.makedirs(p)
+            #
+            # def speed_change(sound: AudioSegment, speed=1.0):
+            #     sound_with_alterade_frame_rate = sound._spawn(sound.raw_data, overrides={
+            #         "frame_rate": int(sound.frame_rate * speed)
+            #     })
+            #     return sound_with_alterade_frame_rate.set_frame_rate(sound.frame_rate)
 
-            for i, t in enumerate(text_list, start=1):
-                image_file: str = os.path.join(image_path, f"{i}.{t}{Voitext.ext.get(Voitext.IMAGE)}")
-                video_file: str = os.path.join(video_path, f"{i}.{t}{Voitext.ext.get(Voitext.VIDEO)}")
-
-                Voitext.__text_to_image(
-                    output_filename=image_file,
-                    text=t.upper(),
-                    fontsize=fontsize
+            audio_segment: AudioSegment = AudioSegment.from_wav(audio_file)
+            # audio_segment = audio_segment.set_frame_rate(6000)
+            d = []
+            min_sil_len = 5
+            while True:
+                chunk_list: List[AudioSegment] = split_on_silence(
+                    audio_segment=audio_segment,
+                    min_silence_len=min_sil_len,
+                    silence_thresh=audio_segment.dBFS - 14,
+                    # keep_silence=1000
                 )
 
-                Voitext.__media_to_video(
-                    output_filename=video_file,
-                    image_file=image_file,
-                    video_bg_color=Voitext.set_bg_color(video_bg_color),
-                    duration=d,
-                )
+                if len(text_list) == len(chunk_list):
+                    d = [d.duration_seconds for d in chunk_list]
+                    break
+
+                if min_sil_len >= 500:
+                    break
+
+                min_sil_len += 10
+                # print(len(text_list), len(chunk_list))
+
+            print(text_list)
+            print(d)
+            break
+            #
+            # for i, (t, d) in enumerate(zip(text_list, d), start=1):
+            #     image_file: str = os.path.join(image_path, f"{i}.{t}{Voitext.ext.get(Voitext.IMAGE)}")
+            #     video_file: str = os.path.join(video_path, f"{i}.{t}{Voitext.ext.get(Voitext.VIDEO)}")
+            #
+            #     Voitext.__text_to_image(
+            #         output_filename=image_file,
+            #         text=t.upper(),
+            #         fontsize=fontsize
+            #     )
+            #
+            #     Voitext.__media_to_video(
+            #         output_filename=video_file,
+            #         image_file=image_file,
+            #         video_bg_color=Voitext.set_bg_color(video_bg_color),
+            #         duration=d,
+            #     )
 
     def __create_output_dir(self) -> Dict[int, str]:
         version = 1
