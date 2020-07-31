@@ -15,7 +15,7 @@ docopt = "~=0.6.2"
 ibm-watson = "*"
 
 [scripts]
-dev = "python main.py"
+dev = "python voitext.py"
 
 [requires]
 python_version = "3.7"
