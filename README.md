@@ -1,7 +1,7 @@
 # Voitext
 
 ### Cara Install dan menjalankannya
-- downlaod file .zip di https://github.com/wongselent/voitext/releases (untuk linux)
+- downlaod file .zip di https://github.com/wongselent/voitext/releases (voitext_linux.zip & voitext_window.zip)
 - unzip filde yang sudah terdownload:
     ```bash
     unzip voitext.zip -d "$PWD"/voitext
