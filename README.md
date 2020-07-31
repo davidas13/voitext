@@ -2,7 +2,7 @@
 
 *Default width for text 1920
 
-### Untuk Install
+### Cara Install dan menjalankannya
 - downlaod file .zip di https://github.com/wongselent/voitext/releases
 - unzip filde yang sudah terdownload:
     ```bash
@@ -13,18 +13,27 @@
     ./voitext "example_video.webm"
     ```
     
-    *-atau-*
+    **- atau -**
     
 - install python 3
 - install pipenv (tutorial ada disin: https://pipenv-fork.readthedocs.io/en/latest/install.html)
 - clone project denga cara buka terminal, jalankan command:
-    - git clone https://github.com/wongselent/voitext.git
+    ```bash
+    git clone https://github.com/wongselent/voitext.git
+    ```
 - masuk kedalam project folder:
-    - cd voitext/
+    ```bash
+    cd voitext/
+    ```
 - install semua packages, dengan cara:
-    - pipenv install
+    ```bash
+    pipenv install
+    ```
 - siapkan sebuah video kemudian jalankan:
-    - pipenv run dev "example_video.webm"
+    ```bash
+    pipenv run dev "example_video.webm"
+    ```
+*untuk mengganti style font lain, replace font.ttf
 
 ```bash
 Usage:
