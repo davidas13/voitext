@@ -4,7 +4,7 @@
 
 ### How to install
 - git clone https://github.com/wongselent/voitext.git
-- cd voitext
+- cd voitext/
 - pipenv install
 - pipenv run dev "example_video.webm"
 
