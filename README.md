@@ -1,5 +1,14 @@
 # voitext
 
+*Default width for text 1920
+
+### How to install
+- git clone https://github.com/wongselent/voitext.git
+- cd voitext
+- pipenv install
+- pipenv run dev "example_video.webm"
+
+
 ```bash
 Usage:
     voitext [-l <str>] [-d] [-f <int>] [-n <int>] [-m] [-s <int>] [-b <str>] <file>
