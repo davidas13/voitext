@@ -1,5 +1,7 @@
 output/
 .idea/
+build/
+dist/
 voice_test.py
 Dockerfile
 main.py
