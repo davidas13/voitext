@@ -27,7 +27,10 @@ import speech_recognition as sr
 import yaml
 from PIL import Image, ImageDraw, ImageFont
 from docopt import docopt
-from moviepy.editor import ImageClip, AudioFileClip, VideoFileClip, CompositeVideoClip
+from moviepy.audio.io.AudioFileClip import AudioFileClip
+from moviepy.video.VideoClip import ImageClip
+from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
 from pydub import AudioSegment
 from pydub.silence import split_on_silence, detect_nonsilent
 
@@ -35,6 +38,7 @@ CWD_PATH: str = os.getcwd()
 OUTPUT_PATH: str = os.path.join(CWD_PATH, "output")
 FONT_FILE: str = os.path.join(CWD_PATH, "font.ttf")
 VERSION: float = 0.1
+
 
 class BG_COLOR(Enum):
     GREEN = (0, 177, 64)
@@ -187,7 +191,6 @@ class Voitext:
                     audio_data=audio_listened,
                     language=language if language else "id-ID"
                 )
-                print(text)
             except sr.UnknownValueError:
                 print("Google Speech Recognition could not understand audio")
             except sr.RequestError as e:
@@ -298,6 +301,9 @@ class Voitext:
                 )
 
     def __create_output_dir(self) -> Dict[int, str]:
+        if not os.path.exists(OUTPUT_PATH):
+            os.makedirs(OUTPUT_PATH)
+
         version = 1
         dir_list: List[str] = [d for d in os.listdir(OUTPUT_PATH) if os.path.isdir(os.path.join(OUTPUT_PATH, d))]
 

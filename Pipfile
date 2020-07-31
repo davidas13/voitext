@@ -17,6 +17,7 @@ ibm-watson = "*"
 
 [scripts]
 dev = "python voitext.py"
+install = "pyinstaller --onefile --hidden-import=\"pkg_resources.py2_warn\" voitext.py"
 
 [requires]
 python_version = "3.7"

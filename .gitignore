@@ -2,6 +2,7 @@ output/
 .idea/
 build/
 dist/
+voitext.spec
 voice_test.py
 Dockerfile
 main.py
