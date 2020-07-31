@@ -2,8 +2,6 @@
 
 Usage:
     voitext [-l <str>] [-d] [-f <int>] [-n <int>] [-m] [-s <int>] [-b <str>] <file>
-    voitext edit
-    voitext split
     voitext (-h | --help)
     voitext --version
 
