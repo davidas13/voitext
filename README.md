@@ -1,5 +1,6 @@
 # voitext
 
+```bash
 Usage:
     voitext [-l <str>] [-d] [-f <int>] [-n <int>] [-m] [-s <int>] [-b <str>] <file>
     voitext (-h | --help)
@@ -15,3 +16,4 @@ Options:
     -n <int>, --number <int>            Data position from the data file list, if 0 then all the list in the data file will be exported. default: 0
     -s <int> --min-silence-len <int>    Minimum length of a silence to be used for a split. default: 500
     -b <str> --bg-color <str>           Set BG Color. Default: "green"
+```
