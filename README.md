@@ -5,7 +5,9 @@
 ### Untuk Install
 - downlaod file .zip di https://github.com/wongselent/voitext/releases
 - unzip filde yang sudah terdownload:
-    - unzip voitext.zip -d "$PWD"/voitext
+    - ```bash
+    unzip voitext.zip -d "$PWD"/voitext
+    ```
 - siapkan sebuha video, kemudian jalankan:
     - ./voitext "example_video.webm"
     
