@@ -1,12 +1,15 @@
-# voitext
+# Voitext
 
 *Default width for text 1920
 
-### How to install
-- git clone https://github.com/wongselent/voitext.git
-- cd voitext/
-- pipenv install
-- pipenv run dev "example_video.webm"
+### Untuk Install
+- install python 3
+- install pipenv (tutorial ada disin: https://pipenv-fork.readthedocs.io/en/latest/install.html)
+- clone project atau download saja:
+    - git clone https://github.com/wongselent/voitext.git
+    - cd voitext/
+    - pipenv install
+    - pipenv run dev "example_video.webm"
 
 
 ```bash
@@ -26,3 +29,7 @@ Options:
     -s <int> --min-silence-len <int>    Minimum length of a silence to be used for a split. default: 500
     -b <str> --bg-color <str>           Set BG Color. Default: "green"
 ```
+
+### Update kedepan
+- mengexport setiap kata didalam video (example: https://www.youtube.com/watch?v=7kQJifNIa1U)
+- membuat efek pada text (example: https://www.youtube.com/watch?v=XzXKXx2vfhk)
