@@ -1,7 +1,5 @@
 # Voitext
 
-*Default width for text 1920
-
 ### Cara Install dan menjalankannya
 - downlaod file .zip di https://github.com/wongselent/voitext/releases
 - unzip filde yang sudah terdownload:
@@ -33,7 +31,8 @@
     ```bash
     pipenv run dev "example_video.webm"
     ```
-*untuk mengganti style font lain, replace font.ttf
+_*untuk mengganti style font lain, replace font.ttf_
+_*Default width for text 1920_
 
 ```bash
 Usage:
