@@ -1,7 +1,7 @@
 # Voitext
 
 ### Cara Install dan menjalankannya
-- downlaod file .zip di https://github.com/wongselent/voitext/releases
+- downlaod file .zip di https://github.com/wongselent/voitext/releases (untuk linux)
 - unzip filde yang sudah terdownload:
     ```bash
     unzip voitext.zip -d "$PWD"/voitext
@@ -10,9 +10,7 @@
     ```bash
     ./voitext "example_video.webm"
     ```
-    
     **- atau -**
-    
 - install python 3
 - install pipenv (tutorial ada disin: https://pipenv-fork.readthedocs.io/en/latest/install.html)
 - clone project denga cara buka terminal, jalankan command:
