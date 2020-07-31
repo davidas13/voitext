@@ -32,8 +32,8 @@
     pipenv run dev "example_video.webm"
     ```
 ### Catatan
-- *untuk mengganti style font lain, replace font.ttf*
-- *Default width for text 1920*
+- *Untuk mengganti style font lain, replace font.ttf*
+- *Default width untuk hasil export 1920*
 
 ### Command
 ```bash
