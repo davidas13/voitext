@@ -31,8 +31,8 @@
     ```bash
     pipenv run dev "example_video.webm"
     ```
-_*untuk mengganti style font lain, replace font.ttf_
-_*Default width for text 1920_
+*_untuk mengganti style font lain, replace font.ttf_
+*_Default width for text 1920_
 
 ```bash
 Usage:
