@@ -31,9 +31,11 @@
     ```bash
     pipenv run dev "example_video.webm"
     ```
-*_untuk mengganti style font lain, replace font.ttf_
-*_Default width for text 1920_
+### Catatan
+- untuk mengganti style font lain, replace font.ttf_
+- Default width for text 1920_
 
+### Command
 ```bash
 Usage:
     voitext [-l <str>] [-d] [-f <int>] [-n <int>] [-m] [-s <int>] [-b <str>] <file>
